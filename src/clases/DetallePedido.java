@@ -24,7 +24,9 @@ public class DetallePedido {
     }
     
     
-    
+    public double getSubtotal(){
+        return producto.getPrecio()* cantidad;
+    }
     
     
     
