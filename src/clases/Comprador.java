@@ -1,34 +1,43 @@
+
 package clases;
 
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import vista.FrmPedidoEnProceso;
 
 /**
  *
  * @author Graciela
  */
+
 public class Comprador extends Thread {
 
     private String nomComprador;
     private Inventario inventario;
-    private JTable table;
+    private FrmPedidoEnProceso proceso;
     private int avanceActual = 0;
+    private int numFila;
 
-    public Comprador(String nomComprador, Inventario inventario) {
+    public Comprador(String nomComprador, Inventario inventario, FrmPedidoEnProceso proceso, int numFila) {
         this.nomComprador = nomComprador;
         this.inventario = inventario;
+        this.proceso = proceso;
+        this.numFila = numFila;
     }
 
+    
+   
+    
     @Override
     public void run() {
-
+        
         Random random = new Random();
         ArrayList<Producto> catalogo = inventario.getListaProductos();
 
         for (int i = 1; i <= 3; i++) {
-
+        
             try {
                 Thread.sleep(random.nextInt(1000) + 500);
             } catch (InterruptedException e) {
@@ -67,13 +76,17 @@ public class Comprador extends Thread {
 
             }
             pedidoActual.setEstado("Procesando");
+            avanceActual = i;
+            
+            proceso.actualizarFila(numFila, avanceActual +  " de 3 " ,  "Procesando");
 
             try {
                 Thread.sleep(300);
             } catch (InterruptedException e) {
 
             }
-
+           
+            //Evaluamos descuento en el inventario
             boolean aceptado = inventario.procesoDescuentoPedido(pedidoActual);
 
             if (aceptado) {
@@ -81,26 +94,15 @@ public class Comprador extends Thread {
             } else {
                 pedidoActual.setEstado("Rechazado");
             }
-
-            avanceActual = i;
-
-            SwingUtilities.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    System.out.println("Comprador: " + nomComprador + " | Intento " + avanceActual + " de 3 | Estado: " + pedidoActual.getEstado());
-
-                }
-
-            });
-
+            
+            proceso.actualizarFila(numFila, avanceActual +  " de 3" , pedidoActual.getEstado());
+ 
         }
+        
+         proceso.actualizarFila(numFila, "3 de 3" ,  "Finalizado");
 
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                System.out.println("Hilo de " + nomComprador + " ha finalizado.");
-            }
-        });
+
+        
     }
 
     public String getNomComprador() {
@@ -114,5 +116,3 @@ public class Comprador extends Thread {
     
 
 }
-
-

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package vista;
 
 import clases.Comprador;
@@ -14,8 +10,6 @@ import javax.swing.JOptionPane;
  */
 public class FrmSimulación extends javax.swing.JFrame {
 
-    
-    
     /**
      * Creates new form FrmSimulación
      */
@@ -202,17 +196,23 @@ public class FrmSimulación extends javax.swing.JFrame {
         //Validar que no sean repetidos
         if (n1.equals(n2) || n1.equals(n3) || n1.equals(n4) || n2.equals(n3) || n2.equals(n4) || n3.equals(n4)) {
             JOptionPane.showMessageDialog(this, "Los nombres deben ser distintos");
+            return;
         }
 
+        FrmPedidoEnProceso proceso = new FrmPedidoEnProceso();
+       // proceso.actualizarInventario(inventario);
+        proceso.inicializarTabla(n1, n2, n3, n4);
+        proceso.setVisible(true);
+
         btnSimulacion.setEnabled(false);
-        
+
         Inventario inventario = new Inventario();
 
         //Crea y arranca los 4 hilos compradores
-        Comprador hilo1 = new Comprador(n1, inventario);
-        Comprador hilo2 = new Comprador(n2, inventario);
-        Comprador hilo3 = new Comprador(n3, inventario);
-        Comprador hilo4 = new Comprador(n4, inventario);
+        Comprador hilo1 = new Comprador(n1, inventario, proceso, 0);
+        Comprador hilo2 = new Comprador(n2, inventario, proceso, 1);
+        Comprador hilo3 = new Comprador(n3, inventario, proceso, 2);
+        Comprador hilo4 = new Comprador(n4, inventario, proceso, 3);
 
         hilo1.start();
         hilo2.start();
