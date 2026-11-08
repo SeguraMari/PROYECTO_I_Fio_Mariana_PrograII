@@ -194,19 +194,19 @@ public class FrmSimulación extends javax.swing.JFrame {
         }
 
         //Validar que no sean repetidos
-        if (n1.equals(n2) || n1.equals(n3) || n1.equals(n4) || n2.equals(n3) || n2.equals(n4) || n3.equals(n4)) {
-            JOptionPane.showMessageDialog(this, "Los nombres deben ser distintos");
+        if (n1.equalsIgnoreCase(n2) || n1.equalsIgnoreCase(n3) || n1.equalsIgnoreCase(n4) || n2.equalsIgnoreCase(n3) || n2.equalsIgnoreCase(n4) || n3.equalsIgnoreCase(n4)) {
+            JOptionPane.showMessageDialog(this, "No se permiten nombres similares");
             return;
         }
 
+        Inventario inventario = new Inventario();
+
         FrmPedidoEnProceso proceso = new FrmPedidoEnProceso();
-       // proceso.actualizarInventario(inventario);
+        proceso.actualizarInventario(inventario);
         proceso.inicializarTabla(n1, n2, n3, n4);
         proceso.setVisible(true);
 
         btnSimulacion.setEnabled(false);
-
-        Inventario inventario = new Inventario();
 
         //Crea y arranca los 4 hilos compradores
         Comprador hilo1 = new Comprador(n1, inventario, proceso, 0);
@@ -214,11 +214,36 @@ public class FrmSimulación extends javax.swing.JFrame {
         Comprador hilo3 = new Comprador(n3, inventario, proceso, 2);
         Comprador hilo4 = new Comprador(n4, inventario, proceso, 3);
 
+        proceso.guardarDatosResumen(inventario, hilo1, hilo2, hilo3, hilo4);
+
         hilo1.start();
         hilo2.start();
         hilo3.start();
         hilo4.start();
 
+        
+        //Hilo de espera para habilitar el botón btnMostrarResumen
+        
+        Thread hiloEspera = new Thread(new Runnable() {
+            public void run() {
+                try {
+                    hilo1.join();
+                    hilo2.join();
+                    hilo3.join();
+                    hilo4.join();
+                    javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                        public void run() {
+                            proceso.habilitarBoton();
+                        }
+                    });
+
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        });
+
+        hiloEspera.start();
 
     }//GEN-LAST:event_btnSimulacionActionPerformed
 

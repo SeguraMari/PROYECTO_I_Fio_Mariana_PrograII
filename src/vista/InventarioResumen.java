@@ -1,8 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package vista;
+
+import clases.Comprador;
+import clases.Inventario;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -15,6 +16,91 @@ public class InventarioResumen extends javax.swing.JFrame {
      */
     public InventarioResumen() {
         initComponents();
+    }
+
+    public void cargarResumen(Inventario inventario, DefaultTableModel modelPedido, Comprador h1, Comprador h2, Comprador h3, Comprador h4) {
+
+        int totalAceptados = 0;
+        int totalRechazados = 0;
+        int ventasTotales = 0;
+
+        //Cuenta los pedidos aceptados y rechazados
+        for (int i = 0; i < modelPedido.getRowCount(); i++) {
+
+            String estado = modelPedido.getValueAt(i, 4).toString();
+
+            if (estado.equals("Aceptado")) {
+                totalAceptados++;
+
+            } else if (estado.equals("Rechazado")) {
+                totalRechazados++;
+            }
+
+        }
+
+        //Calcula ventas aceptadas
+        for (int i = 0; i < modelPedido.getRowCount(); i++) {
+
+            String estado = modelPedido.getValueAt(i, 4).toString();
+
+            if (estado.equals("Aceptado")) {
+
+                String textoTotal = modelPedido.getValueAt(i, 3).toString();
+                textoTotal = textoTotal.replace("₡", "").trim();
+
+                ventasTotales += Integer.parseInt(textoTotal);
+
+            }
+        }
+
+        txtPedidosAceptados.setText(String.valueOf(totalAceptados));
+        txtPedidosRechazados.setText(String.valueOf(totalRechazados));
+        txtVentasAceptadas.setText(String.valueOf(ventasTotales));
+
+        DefaultTableModel modelo = (DefaultTableModel) tblCompradorResumen.getModel();
+
+        modelo.setRowCount(0);
+
+        //Agregar los 4 compradores
+        agregarComprador(modelo, modelPedido, h1);
+        agregarComprador(modelo, modelPedido, h2);
+        agregarComprador(modelo, modelPedido, h3);
+        agregarComprador(modelo, modelPedido, h4);
+
+    }
+
+    public void agregarComprador(DefaultTableModel modelo, DefaultTableModel modelPedidos, Comprador comprador) {
+
+        int aceptados = 0;
+        int rechazados = 0;
+        int ventasTotales = 0;
+
+        for (int i = 0; i < modelPedidos.getRowCount(); i++) {
+
+            String nombre = modelPedidos.getValueAt(i, 0).toString();
+            String estado = modelPedidos.getValueAt(i, 4).toString();
+
+            if (nombre.equals(comprador.getNomComprador())) {
+
+                if (estado.equals("Aceptado")) {
+                    aceptados++;
+
+                    String textTotal = modelPedidos.getValueAt(i, 3).toString();
+                    textTotal = textTotal = textTotal.replace("₡", "").trim();
+
+                    ventasTotales += Integer.parseInt(textTotal);
+
+                } else if (estado.equals("Rechazado")) {
+                    rechazados++;
+                }
+
+            }
+
+        }
+
+        modelo.addRow(new Object[]{comprador.getNomComprador(), aceptados, rechazados, "₡" + ventasTotales, comprador.getName()
+        });
+
     }
 
     /**
@@ -31,17 +117,17 @@ public class InventarioResumen extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        lblPedidosAceptados = new javax.swing.JLabel();
+        txtPedidosAceptados = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        lblPedidosRechazados = new javax.swing.JLabel();
+        txtPedidosRechazados = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        lblVentasAceptadas = new javax.swing.JLabel();
+        txtVentasAceptadas = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblCompradorResumen = new javax.swing.JTable();
         jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -86,12 +172,12 @@ public class InventarioResumen extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel3.setBackground(new java.awt.Color(204, 255, 255));
+        jPanel3.setBackground(new java.awt.Color(204, 204, 204));
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 3, 10)); // NOI18N
-        jLabel3.setText("Pedidos Aceptados");
+        lblPedidosAceptados.setFont(new java.awt.Font("Segoe UI", 3, 10)); // NOI18N
+        lblPedidosAceptados.setText("Pedidos Aceptados");
 
-        jTextField1.setEditable(false);
+        txtPedidosAceptados.setEditable(false);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -100,58 +186,56 @@ public class InventarioResumen extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(41, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblPedidosAceptados, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtPedidosAceptados, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel3)
+                .addComponent(lblPedidosAceptados)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
+                .addComponent(txtPedidosAceptados, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jPanel4.setBackground(new java.awt.Color(204, 255, 255));
+        jPanel4.setBackground(new java.awt.Color(204, 204, 204));
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 3, 10)); // NOI18N
-        jLabel4.setText("Pedidos Rechazados");
+        lblPedidosRechazados.setFont(new java.awt.Font("Segoe UI", 3, 10)); // NOI18N
+        lblPedidosRechazados.setText("Pedidos Rechazados");
 
-        jTextField2.setEditable(false);
+        txtPedidosRechazados.setEditable(false);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
+                .addGap(45, 45, 45)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel4))
+                    .addComponent(txtPedidosRechazados, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblPedidosRechazados))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel4)
+                .addComponent(lblPedidosRechazados)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField2)
+                .addComponent(txtPedidosRechazados)
                 .addContainerGap())
         );
 
-        jPanel5.setBackground(new java.awt.Color(204, 255, 255));
+        jPanel5.setBackground(new java.awt.Color(204, 204, 204));
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 3, 10)); // NOI18N
-        jLabel5.setText("Ventas Aceptadas");
+        lblVentasAceptadas.setFont(new java.awt.Font("Segoe UI", 3, 10)); // NOI18N
+        lblVentasAceptadas.setText("Ventas Aceptadas");
 
-        jTextField3.setEditable(false);
+        txtVentasAceptadas.setEditable(false);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -160,35 +244,32 @@ public class InventarioResumen extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addContainerGap(44, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblVentasAceptadas, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtVentasAceptadas, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(50, 50, 50))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel5)
+                .addComponent(lblVentasAceptadas)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField3)
+                .addComponent(txtVentasAceptadas)
                 .addContainerGap())
         );
 
-        jPanel2.setBackground(new java.awt.Color(0, 255, 204));
+        jPanel2.setBackground(new java.awt.Color(204, 204, 204));
         jPanel2.setBorder(new javax.swing.border.MatteBorder(null));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblCompradorResumen.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "Comprador", "Aceptados", "Rechazados", "Total Vendido", "Hilos"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblCompradorResumen);
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jLabel7.setText("Resultado por Comprador");
@@ -213,8 +294,8 @@ public class InventarioResumen extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel7)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(56, 56, 56))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -244,9 +325,9 @@ public class InventarioResumen extends javax.swing.JFrame {
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41))
         );
 
         pack();
@@ -291,9 +372,6 @@ public class InventarioResumen extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
@@ -302,9 +380,12 @@ public class InventarioResumen extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JLabel lblPedidosAceptados;
+    private javax.swing.JLabel lblPedidosRechazados;
+    private javax.swing.JLabel lblVentasAceptadas;
+    private javax.swing.JTable tblCompradorResumen;
+    private javax.swing.JTextField txtPedidosAceptados;
+    private javax.swing.JTextField txtPedidosRechazados;
+    private javax.swing.JTextField txtVentasAceptadas;
     // End of variables declaration//GEN-END:variables
 }

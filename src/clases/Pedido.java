@@ -3,24 +3,22 @@ package clases;
 import java.util.ArrayList;
 
 /**
- * Esta clase representa un pedido completo.
- * Guarda los productos solicitados, calcula el total mediante recursividad
- * Mantiene el estado de los pedidos.
- * 
+ * Esta clase representa un pedido completo. Guarda los productos solicitados,
+ * calcula el total mediante recursividad Mantiene el estado de los pedidos.
+ *
  * @author Graciela
  */
 public class Pedido {
 
     private String nomComprador;
-    private int precio;
-    String estado;
+    private String estado;
 
-    ArrayList<DetallePedido> listaDetalles;
+    private ArrayList<DetallePedido> listaDetalles;
 
     public Pedido(String nomComprador) {
         this.nomComprador = nomComprador;
         this.estado = "En espera";
-        this.listaDetalles = listaDetalles = new ArrayList<>();
+        this.listaDetalles = new ArrayList<>();
     }
 
     public void agregarDetalle(DetallePedido detalle) {
@@ -35,14 +33,6 @@ public class Pedido {
         this.nomComprador = nomComprador;
     }
 
-    public int getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(int precio) {
-        this.precio = precio;
-    }
-
     public String getEstado() {
         return estado;
     }
@@ -55,9 +45,7 @@ public class Pedido {
         return listaDetalles;
     }
 
-    public void setListaDetalles(ArrayList<DetallePedido> listaDetalles) {
-        this.listaDetalles = listaDetalles;
-    }
+
 
     //Funcion Recursiva
     public double calcularTotalRec(int indice) {

@@ -1,4 +1,3 @@
-
 package clases;
 
 import java.util.ArrayList;
@@ -11,7 +10,6 @@ import vista.FrmPedidoEnProceso;
  *
  * @author Graciela
  */
-
 public class Comprador extends Thread {
 
     private String nomComprador;
@@ -25,19 +23,17 @@ public class Comprador extends Thread {
         this.inventario = inventario;
         this.proceso = proceso;
         this.numFila = numFila;
+
     }
 
-    
-   
-    
     @Override
     public void run() {
-        
+
         Random random = new Random();
         ArrayList<Producto> catalogo = inventario.getListaProductos();
 
         for (int i = 1; i <= 3; i++) {
-        
+
             try {
                 Thread.sleep(random.nextInt(1000) + 500);
             } catch (InterruptedException e) {
@@ -70,6 +66,8 @@ public class Comprador extends Thread {
                 }
 
             }
+            
+            //Evitar productos vacíos
 
             if (pedidoActual.getListaDetalles().isEmpty()) {
                 pedidoActual.agregarDetalle(new DetallePedido(catalogo.get(0), 1));
@@ -77,15 +75,16 @@ public class Comprador extends Thread {
             }
             pedidoActual.setEstado("Procesando");
             avanceActual = i;
-            
-            proceso.actualizarFila(numFila, avanceActual +  " de 3 " ,  "Procesando");
+
+            proceso.actualizarFila(numFila, avanceActual + " de 3 ", "Procesando");
 
             try {
-                Thread.sleep(300);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
+                System.out.println("Interrupted");
 
             }
-           
+
             //Evaluamos descuento en el inventario
             boolean aceptado = inventario.procesoDescuentoPedido(pedidoActual);
 
@@ -95,14 +94,16 @@ public class Comprador extends Thread {
                 pedidoActual.setEstado("Rechazado");
             }
             
-            proceso.actualizarFila(numFila, avanceActual +  " de 3" , pedidoActual.getEstado());
- 
+            proceso.agregarPedido(pedidoActual, i);
+
+            proceso.actualizarFila(numFila, avanceActual + " de 3", pedidoActual.getEstado());
+
+            proceso.actualizarInventario(inventario);
+
         }
-        
-         proceso.actualizarFila(numFila, "3 de 3" ,  "Finalizado");
 
+        proceso.actualizarFila(numFila, "3 de 3", "Finalizado");
 
-        
     }
 
     public String getNomComprador() {
@@ -112,7 +113,5 @@ public class Comprador extends Thread {
     public int getAvanceActual() {
         return avanceActual;
     }
-    
-    
 
 }

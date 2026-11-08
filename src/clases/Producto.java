@@ -1,4 +1,3 @@
-
 package clases;
 
 /**
@@ -6,17 +5,19 @@ package clases;
  * @author Graciela
  */
 public class Producto {
-    
+
     private String nombre;
     private int precio;
     private int existenciaInicial;
     private int existenciaActual;
+    
 
-    public Producto(String nombre, int precio, int existenciaInicial, int existenciaActual) {
+    public Producto(String nombre, int precio, int existenciaInicial) {
         this.nombre = nombre;
         this.precio = precio;
         this.existenciaInicial = existenciaInicial;
-        this.existenciaActual = existenciaActual;
+        this.existenciaActual = existenciaInicial;
+     
     }
 
     public String getNombre() {
@@ -34,10 +35,17 @@ public class Producto {
     public int getExistenciaActual() {
         return existenciaActual;
     }
-    
-    
-    
-    
-    
-    
+
+    public boolean descontarStock(int cantidad) {
+
+        if (this.existenciaActual >= cantidad) {
+            this.existenciaActual -= cantidad;
+            return true;
+
+        }
+
+        return false;
+
+    }
+
 }
