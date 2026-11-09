@@ -15,11 +15,15 @@ import javax.swing.table.DefaultTableModel;
 
 
 public class InventarioResumen extends javax.swing.JFrame {
+    
+    private Inventario inventario;
 
     /**
      * Creates new form FrmSimulación
      */
-    public InventarioResumen() {
+    public InventarioResumen(java.awt.Frame parent, boolean modal, Inventario inventario) {
+     
+        this.inventario = inventario;
         initComponents();
     }
 
@@ -134,6 +138,7 @@ public class InventarioResumen extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblCompradorResumen = new javax.swing.JTable();
         jLabel7 = new javax.swing.JLabel();
+        btnStockFinal = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -302,6 +307,14 @@ public class InventarioResumen extends javax.swing.JFrame {
                 .addGap(56, 56, 56))
         );
 
+        btnStockFinal.setFont(new java.awt.Font("Segoe UI Emoji", 3, 10)); // NOI18N
+        btnStockFinal.setText("Stock Final");
+        btnStockFinal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnStockFinalActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -319,6 +332,10 @@ public class InventarioResumen extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnStockFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -329,13 +346,21 @@ public class InventarioResumen extends javax.swing.JFrame {
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                .addGap(32, 32, 32)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41))
+                .addGap(18, 18, 18)
+                .addComponent(btnStockFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnStockFinalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStockFinalActionPerformed
+      DlgInventarioFinal finalStock = new DlgInventarioFinal(this, true, inventario);
+      finalStock.setLocationRelativeTo(this);
+      finalStock.setVisible(true);
+    }//GEN-LAST:event_btnStockFinalActionPerformed
 
     /**
      * @param args the command line arguments
@@ -368,12 +393,19 @@ public class InventarioResumen extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new InventarioResumen().setVisible(true);
+               Inventario inventario = new Inventario();
+
+        InventarioResumen resumen = new InventarioResumen(
+                new javax.swing.JFrame(), true, inventario);
+
+        resumen.setLocationRelativeTo(null);
+        resumen.setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnStockFinal;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel6;

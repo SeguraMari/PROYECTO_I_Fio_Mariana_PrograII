@@ -51,6 +51,7 @@ public class FrmSimulación extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jmMenu = new javax.swing.JMenu();
         jmnAcercaDe = new javax.swing.JMenu();
+        mniAcercaDe = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -176,6 +177,15 @@ public class FrmSimulación extends javax.swing.JFrame {
                 jmnAcercaDeActionPerformed(evt);
             }
         });
+
+        mniAcercaDe.setText("AcercaDe");
+        mniAcercaDe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniAcercaDeActionPerformed(evt);
+            }
+        });
+        jmnAcercaDe.add(mniAcercaDe);
+
         jMenuBar1.add(jmnAcercaDe);
 
         setJMenuBar(jMenuBar1);
@@ -300,6 +310,13 @@ public class FrmSimulación extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnSimulacion1ActionPerformed
 
+    private void mniAcercaDeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniAcercaDeActionPerformed
+        DlgAcercaDe acercaDe = new DlgAcercaDe(this, true);
+        
+        acercaDe.setLocationRelativeTo(this);
+        acercaDe.setVisible(true);
+    }//GEN-LAST:event_mniAcercaDeActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -350,6 +367,7 @@ public class FrmSimulación extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JMenu jmMenu;
     private javax.swing.JMenu jmnAcercaDe;
+    private javax.swing.JMenuItem mniAcercaDe;
     private javax.swing.JTextField txtComp1;
     private javax.swing.JTextField txtComp2;
     private javax.swing.JTextField txtComp3;

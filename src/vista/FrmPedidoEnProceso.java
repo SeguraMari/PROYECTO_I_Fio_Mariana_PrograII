@@ -87,7 +87,7 @@ public class FrmPedidoEnProceso extends javax.swing.JFrame {
 
     public void mostrarResumen() {
 
-        InventarioResumen resumen = new InventarioResumen();
+        InventarioResumen resumen = new InventarioResumen(this, true, inventario);
 
         DefaultTableModel modelo = (DefaultTableModel) tblPedidos.getModel();
 
