@@ -6,10 +6,16 @@ import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import vista.FrmPedidoEnProceso;
 
+
+
 /**
- *
+ * Representa el comprador que realiza pedidos de manera independiente
+ * utilizando un hilo.
+ * 
  * @author Graciela
  */
+
+
 public class Comprador extends Thread {
 
     private String nomComprador;

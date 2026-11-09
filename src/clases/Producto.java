@@ -1,9 +1,13 @@
 package clases;
 
 /**
- *
+ * Clase que representa un producto disponible en la cafetería.
+ * Almacena el nombre, precio y las existencias iniciales y actuales.
+ * 
  * @author Graciela
  */
+
+
 public class Producto {
 
     private String nombre;

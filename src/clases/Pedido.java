@@ -47,7 +47,13 @@ public class Pedido {
 
 
 
-    //Funcion Recursiva
+    /**
+     * Calcula el total del pedido utilizando recursividad.
+     * @param indice posicion del detalle que se va a calcular.
+     * @return total acumulado de los detalles del pedido.
+     */    
+    
+    
     public double calcularTotalRec(int indice) {
 
         if (indice >= listaDetalles.size()) {

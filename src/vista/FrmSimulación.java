@@ -5,16 +5,23 @@ import clases.Inventario;
 import javax.swing.JOptionPane;
 
 /**
- *
+ * Ventana Principal del sistema de gestión de pedidos.
+ * Permite consultar el menú e iniciar la simulación.
+ * 
  * @author Graciela
  */
+
+
 public class FrmSimulación extends javax.swing.JFrame {
+    
+    private Inventario inventario;
 
     /**
      * Creates new form FrmSimulación
      */
     public FrmSimulación() {
         initComponents();
+        inventario = new Inventario();
     }
 
     /**
@@ -39,7 +46,11 @@ public class FrmSimulación extends javax.swing.JFrame {
         txtComp2 = new javax.swing.JTextField();
         txtComp3 = new javax.swing.JTextField();
         txtComp4 = new javax.swing.JTextField();
-        btnSimulacion = new javax.swing.JButton();
+        btnMenu = new javax.swing.JButton();
+        btnSimulacion1 = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jmMenu = new javax.swing.JMenu();
+        jmnAcercaDe = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -66,7 +77,7 @@ public class FrmSimulación extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 393, Short.MAX_VALUE)
                 .addComponent(jLabel6)
                 .addGap(14, 14, 14))
         );
@@ -136,15 +147,38 @@ public class FrmSimulación extends javax.swing.JFrame {
                 .addContainerGap(26, Short.MAX_VALUE))
         );
 
-        btnSimulacion.setBackground(new java.awt.Color(0, 153, 204));
-        btnSimulacion.setFont(new java.awt.Font("Segoe UI", 3, 10)); // NOI18N
-        btnSimulacion.setForeground(new java.awt.Color(255, 255, 255));
-        btnSimulacion.setText("INICIAR SIMULACIÓN");
-        btnSimulacion.addActionListener(new java.awt.event.ActionListener() {
+        btnMenu.setBackground(new java.awt.Color(0, 153, 204));
+        btnMenu.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        btnMenu.setForeground(new java.awt.Color(255, 255, 255));
+        btnMenu.setText("Ver Menú");
+        btnMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSimulacionActionPerformed(evt);
+                btnMenuActionPerformed(evt);
             }
         });
+
+        btnSimulacion1.setBackground(new java.awt.Color(0, 153, 204));
+        btnSimulacion1.setFont(new java.awt.Font("Segoe UI", 3, 10)); // NOI18N
+        btnSimulacion1.setForeground(new java.awt.Color(255, 255, 255));
+        btnSimulacion1.setText("INICIAR SIMULACIÓN");
+        btnSimulacion1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSimulacion1ActionPerformed(evt);
+            }
+        });
+
+        jmMenu.setText("Menú");
+        jMenuBar1.add(jmMenu);
+
+        jmnAcercaDe.setText("Acerca De");
+        jmnAcercaDe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmnAcercaDeActionPerformed(evt);
+            }
+        });
+        jMenuBar1.add(jmnAcercaDe);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -152,29 +186,50 @@ public class FrmSimulación extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 645, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(277, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnSimulacion)
-                .addGap(23, 23, 23))
+                .addGap(35, 35, 35)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(56, 56, 56)
+                        .addComponent(btnMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnSimulacion1))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                .addComponent(btnSimulacion, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(66, 66, 66)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(47, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnSimulacion1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(71, 71, 71))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnSimulacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimulacionActionPerformed
+    private void btnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuActionPerformed
+
+        DlgMenu menu = new DlgMenu(this, true, inventario);
+
+        menu.setLocationRelativeTo(this);
+
+        menu.setVisible(true);
+
+    }//GEN-LAST:event_btnMenuActionPerformed
+
+    private void jmnAcercaDeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmnAcercaDeActionPerformed
+
+    }//GEN-LAST:event_jmnAcercaDeActionPerformed
+
+    private void btnSimulacion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimulacion1ActionPerformed
 
         String n1 = txtComp1.getText().trim();
         String n2 = txtComp2.getText().trim();
@@ -198,15 +253,14 @@ public class FrmSimulación extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "No se permiten nombres similares");
             return;
         }
-
-        Inventario inventario = new Inventario();
+        
 
         FrmPedidoEnProceso proceso = new FrmPedidoEnProceso();
         proceso.actualizarInventario(inventario);
         proceso.inicializarTabla(n1, n2, n3, n4);
         proceso.setVisible(true);
 
-        btnSimulacion.setEnabled(false);
+        btnMenu.setEnabled(false);
 
         //Crea y arranca los 4 hilos compradores
         Comprador hilo1 = new Comprador(n1, inventario, proceso, 0);
@@ -221,9 +275,7 @@ public class FrmSimulación extends javax.swing.JFrame {
         hilo3.start();
         hilo4.start();
 
-        
         //Hilo de espera para habilitar el botón btnMostrarResumen
-        
         Thread hiloEspera = new Thread(new Runnable() {
             public void run() {
                 try {
@@ -245,7 +297,8 @@ public class FrmSimulación extends javax.swing.JFrame {
 
         hiloEspera.start();
 
-    }//GEN-LAST:event_btnSimulacionActionPerformed
+
+    }//GEN-LAST:event_btnSimulacion1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -283,7 +336,8 @@ public class FrmSimulación extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnSimulacion;
+    private javax.swing.JButton btnMenu;
+    private javax.swing.JButton btnSimulacion1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -291,8 +345,11 @@ public class FrmSimulación extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JMenu jmMenu;
+    private javax.swing.JMenu jmnAcercaDe;
     private javax.swing.JTextField txtComp1;
     private javax.swing.JTextField txtComp2;
     private javax.swing.JTextField txtComp3;

@@ -2,7 +2,9 @@
 package clases;
 
 /**
- *
+ * Clase que representa el detalle de un producto en un pedido de la cafetería.
+ * Almacena el producto y la cantidad solicitada.
+ * 
  * @author Graciela
  */
 public class DetallePedido {
@@ -23,6 +25,13 @@ public class DetallePedido {
         return cantidad;
     }
     
+    
+    /**
+     * Calcula el subtotal del detalle multiplicando el precio
+     * del producto por la cantidad solicitada.
+     * 
+     * @return subtotal del producto.
+     */
     
     public int getSubtotal(){
         return producto.getPrecio()* cantidad;

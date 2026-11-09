@@ -34,9 +34,13 @@ public class Inventario {
     }
 
     /**
-     * Método Sincronizado. Garantiza que 2 hilos no vendan las mismas unidades
-     * ni dejen stock negativo.
+     * Método Sincronizado. Evita que varios hilos modifiquen las existncias al mismo tiempo.
+     * @param pedido cuyos productos se van a descontar.
+     * 
+     * @return true si el pedido puede procesarse, false si no hay existencia suficiente.
      */
+    
+    
     public synchronized boolean procesoDescuentoPedido(Pedido pedido) {
 
         for (DetallePedido detalle : pedido.getListaDetalles()) {
@@ -58,6 +62,10 @@ public class Inventario {
 
         return true;
 
+    }
+    
+    public ArrayList<Producto> getProductos(){
+        return listaProductos;
     }
 
     
